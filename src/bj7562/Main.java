@@ -32,6 +32,7 @@ public class Main {
         if(x < 0 || y < 0 || x >= grid[0].length || y >= grid.length)
             return;
         if(grid[y][x] == 2){
+            ㅁㅁㅁ
             temp_count++;
             count = Math.max(temp_count, count);
             return;
