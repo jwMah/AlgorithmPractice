@@ -2,6 +2,8 @@ package bj20058;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.StringTokenizer;
 
 public class Main {
@@ -31,6 +33,7 @@ public class Main {
         stz = new StringTokenizer(br.readLine());
         for (int i = 0; i < Q; i++) {
             int l = Integer.parseInt(stz.nextToken());
+            //rotate(l);
             move(l);
             fire();
         }
@@ -83,10 +86,11 @@ public class Main {
         grid = next;
     }
 
-
-
     static int[][] dirs = {{-1,0},{1,0},{0,-1},{0,1}};
     public static void fire() {
+
+        Queue<int[]> queue = new LinkedList<>();
+
         for (int i = 0; i < length; i++) {
             for (int j = 0; j < length; j++) {
                 if(grid[i][j] == 0)
@@ -100,15 +104,20 @@ public class Main {
                     if(ny < 0 || ny >= length || nx < 0 || nx >= length) {
                         continue;
                     }
-                    if(grid[ny][nx] != 0)
+                    if(grid[ny][nx] >= 1)
                         ice_count++;
                 }
 
                 if(ice_count < 3) {
-                    grid[i][j]--;
+                    queue.offer(new int[]{i,j});
                 }
 
             }
+        }
+
+        while(!queue.isEmpty()) {
+            int[] a = queue.poll();
+            grid[a[0]][a[1]]--;
         }
     }
 
