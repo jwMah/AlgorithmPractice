@@ -6,7 +6,7 @@ public class Main {
         int[][] maze = {{0,0,1,0,0},
                         {0,0,0,0,0},
                         {0,0,0,1,0},
-                        {1,1,1,1,1},
+                        {1,1,0,1,1},
                         {0,0,0,0,0}};
         int[] start = {0,4};
         int[] dest = {4,4};
@@ -34,7 +34,7 @@ public class Main {
         for(int[] dir : dirs){
             int x = start[0];
             int y = start[1];
-            while(x >= 0 && y >= 0 && x < maze.length && y < maze[0].length && maze[start[0]][start[1]] != 1){
+            while(x >= 0 && y >= 0 && x < maze.length && y < maze[0].length && maze[x][y] != 1){
                 x += dir[0];
                 y += dir[1];
             }
