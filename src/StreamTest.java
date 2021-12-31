@@ -1,37 +1,42 @@
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.*;
 
-public class StreamTest {
+class Dog {
+    String name;
+    Dog(String name) {this.name = name;}
+    void setName(String n) {
+        name = n;
+    }
+    public boolean equals(Dog dog) {
+        if(dog.name.equals(this.name)) {
+            return true;
+        }
+        return false;
+    }
+}
+
+public class StreamTest implements A{
     public static void main(String[] args) {
-        int[][] grid = {{1,2,3,4},{5,6,7,8},{9,10,11,12},{13,14,15,16}};
-        for (int i = 0; i < grid.length; i++) {
-            for (int j = 0; j < grid[0].length; j++) {
-                System.out.print(grid[i][j] + " ");
-            }
-            System.out.println();
+        List<Integer> list = new ArrayList<>();
+        list.add(3);
+        list.add(2);
+        list.add(1);
+        Collections.sort(list, (b,c) -> b - c);
+        for (Integer integer : list) {
+            System.out.println(integer);
         }
 
-        int[][] clone = new int[grid.length][grid.length];
-        for (int i = 0; i < grid.length; i++) {
-            clone[i] = grid[i].clone();
-        }
-
-
-        int[] temp;
-        for (int i = 0; i < grid.length; i++) {
-            temp = clone[i].clone();
-            for (int j = 0; j < grid.length; j++) {
-                grid[j][grid.length - 1 - i] = temp[j];
-            }
-        }
-
-        for (int i = 0; i < grid.length; i++) {
-            for (int j = 0; j < grid.length; j++) {
-                System.out.print(grid[i][j] + " ");
-            }
-            System.out.println();
-        }
     }
 
+    @Override
+    public void print_num() {
+
+    }
+
+    @Override
+    public void hello(int k) {
+
+    }
 }

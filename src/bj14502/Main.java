@@ -5,67 +5,94 @@ import java.util.*;
 public class Main {
     static int[][] grid;
     static int[][] temp;
-    static int area;
+    static int max,N,M;
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        int N = sc.nextInt();
-        int M = sc.nextInt();
+        N = sc.nextInt();
+        M = sc.nextInt();
         grid = new int[N][M];
-        temp = new int[N][M];
-        int area = 0;
-        int max = 0;
+        max = 0;
         for(int i=0;i<N;i++){
             for(int j=0;j<M;j++){
                 grid[i][j] = sc.nextInt();
             }
         }
+        setWall(0,grid);
+        System.out.println(max);
 
 
-
-        for(int i=0;i< temp.length;i++){
-            for(int j=0;j<temp[0].length;j++){
-
-            }
-        }
-
-        area = getArea(area);
-        max = Math.max(max,area);
 
     }
 
-    private static int getArea(int area) {
-        for(int i=0;i< temp.length;i++){
-            for(int j=0;j<temp[0].length;j++){
-                if(grid[i][j] == 0){
-                    area++;
+    private static void print() {
+        for (int i = 0; i < temp.length; i++) {
+            for (int j = 0; j < temp[0].length; j++) {
+                System.out.print(temp[i][j] + " ");
+            }
+            System.out.println();
+        }
+        System.out.println();
+    }
+
+    public static void setWall(int count,int[][] map) {
+        if(count==3) {
+            virus(map);
+            getCleanArea();
+            //print();
+            //System.out.println(max);
+            return;
+        }
+        int[][] temp = new int[N][M];
+        for (int i = 0; i < map.length; i++) {
+            temp[i] = map[i].clone();
+        }
+
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < M; j++) {
+                if(temp[i][j] == 0) {
+                    temp[i][j] = 1;
+                    setWall(count+1,temp);
+                    temp[i][j] = 0;
                 }
             }
         }
-        return area;
+    }
+
+    private static void getCleanArea() {
+        int area = 0;
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < M; j++) {
+                if(temp[i][j] == 0)
+                    area++;
+            }
+        }
+        max = Math.max(area,max);
     }
 
     static int[][] dirs = {{0,-1},{0,1},{1,0},{-1,0}};
-    static void virus() {
-        Queue<int[]> queue = new LinkedList<>();
-        for(int i=0;i< temp.length;i++){
-            for(int j=0;j<temp[0].length;j++){
-                if(temp[i][j] == 2){
-                    queue.offer(new int[] {i,j});
-                    while(!queue.isEmpty()){
-                        int[] point = queue.poll();
-                        for(int[] dir : dirs){
-                            int x = point[0] + dir[0];
-                            int y = point[1] + dir[1];
-                            if(x >= 0 && x < grid.length && y >= 0 && y < grid[0].length && grid[x][y] == 0){
-                                queue.offer(new int[] {x,y});
-                                grid[x][y] = 2;
-                            }
-                        }
-                    }
+    public static void virus(int[][] map) {
+        temp = new int[map.length][map[0].length];
+        for (int i = 0; i < map.length; i++) {
+            temp[i] = map[i].clone();
+        }
+        for (int i = 0; i < temp.length; i++) {
+            for (int j = 0; j < temp[0].length; j++) {
+                if(temp[i][j] == 2) { //virus
+                    dfs(i-1,j);
+                    dfs(i+1,j);
+                    dfs(i,j-1);
+                    dfs(i,j+1);
                 }
             }
         }
-
-
+    }
+    public static void dfs(int i, int j) {
+        if(i < 0 || j < 0 || i >= N || j >= M || temp[i][j] != 0)
+            return;
+        temp[i][j] = 3;
+        dfs(i-1,j);
+        dfs(i+1,j);
+        dfs(i,j-1);
+        dfs(i,j+1);
     }
 }

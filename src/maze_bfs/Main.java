@@ -29,7 +29,7 @@ public class Main {
             for(int[] dir : dirs) {
                 int y = index[0];
                 int x = index[1];
-                boolean check = false;
+
 
                 while(y >= 0 && y < maze.length && x >= 0 && x < maze[0].length && maze[y][x] == 0) {
                     y += dir[0];
