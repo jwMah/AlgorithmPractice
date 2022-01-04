@@ -10,7 +10,7 @@ public class Solution {
         PriorityQueue<Integer> pq = new PriorityQueue<>();
         int[] c = new int[3];
         String a = "abcd";
-        a.replace(0,"b");
+        //a.replace(0,"b");
         StringBuilder sb = new StringBuilder(a);
         sb.setCharAt(0,'a');
         return answer;
