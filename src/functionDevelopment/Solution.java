@@ -20,7 +20,7 @@ public class Solution {
         for (int an : ans) {
             System.out.println(an);
         }
-        
+
 
     }
 }
