@@ -14,6 +14,7 @@ public class Main {
         List<List<Integer>> list = new ArrayList<>();
         List<Integer> list2 = new ArrayList<>();
         dfs(nums,list,list2);
+        System.out.println(list.size());
         return list;
     }
     public void dfs(int[] nums,List<List<Integer>> list ,List<Integer> list2) {
@@ -21,6 +22,7 @@ public class Main {
         if(list2.size() == nums.length) {
             List<Integer> l = new ArrayList<>(list2);
             list.add(l);
+            return;
         }
 
         for (int i = 0; i < nums.length; i++) {
