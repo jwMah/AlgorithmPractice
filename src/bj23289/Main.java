@@ -16,6 +16,7 @@ public class Main {
     static int[][] dirs = {{0,0},{0,1},{0,-1},{-1,0},{1,0}};
     static HashMap<Integer,int[][]> heat_map = new HashMap<>();
     static boolean[][][] wallMap;
+    static boolean[][][][] controlMap;
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         r = sc.nextInt();
@@ -43,8 +44,6 @@ public class Main {
         int eat_choco = 0;
         while(true) {
             heat();
-            print2();
-            //print();
             temperature_control();
             outside_decrease();
             eat_choco++;
@@ -55,17 +54,63 @@ public class Main {
                 break;
             }
         }
-
+        print2();
         System.out.println(eat_choco);
     }
 
     private static void temperature_control() {
+        heat_temp = new int[r+1][c+1];
+        controlMap = new boolean[r+2][c+2][r+2][c+2];
         for (int i = 1; i < r + 1; i++) {
             for (int j = 1; j < c + 1; j++) {
-                
+                control(i,j);
             }
         }
+        copyToTemp();
+    }
 
+    private static void control(int y, int x) {
+        for (int i = 1; i < 5; i++) {
+
+            int ny = y + dirs[i][0];
+            int nx = x + dirs[i][1];
+
+            if(!check2(i,y,x,ny,nx)) {
+                continue;
+            }
+
+            int dif = Math.abs(temperature[y][x] - temperature[ny][nx]) / 4;
+            if(temperature[y][x] < temperature[ny][nx]) {
+                heat_temp[ny][nx] -= dif;
+                heat_temp[y][x] += dif;
+            } else {
+                heat_temp[ny][nx] += dif;
+                heat_temp[y][x] -= dif;
+            }
+            controlMap[y][x][ny][nx] = true; controlMap[ny][nx][y][x] = true;
+        }
+    }
+
+    private static boolean check2(int dir, int y, int x, int ny, int nx) {
+        if(ny < 1 || ny >= temperature.length || nx < 1 || nx >= temperature[0].length || controlMap[y][x][ny][nx])
+            return false;
+        if(dir == 1) {
+            if(wallMap[y][x][1])
+                return false;
+            return true;
+        } else if(dir == 2) {
+            if(wallMap[ny][nx][1])
+                return false;
+            return true;
+        } else if(dir == 3) {
+            if(wallMap[y][x][0])
+                return false;
+            return true;
+        } else {
+            if(wallMap[ny][nx][0])
+                return false;
+            return true;
+        }
     }
 
     private static void print2() {
@@ -99,7 +144,7 @@ public class Main {
                     int nx = j + dirs[dir_idx][1];
                     heat_temp[ny][nx] = 5;
                     heat_dfs(ny,nx,dir_idx,5);
-                    print();
+                    //print();
                     copyToTemp();
                 }
             }
@@ -126,7 +171,6 @@ public class Main {
         int[][] spread_dirs = heat_map.get(idx);
         for (int i = 0; i < spread_dirs.length; i++) {
             if(!spread_check(idx,y,x,i)) {
-                System.out.println("false!!");
                 continue;
             }
             int ny = y + spread_dirs[i][0];
